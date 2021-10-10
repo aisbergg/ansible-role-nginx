@@ -38,7 +38,6 @@
         owner: root
         group: root
         mode: 0400
-      no_log: true
       notify: reload nginx
       vars:
         dest_without_ext: "{{
@@ -47,6 +46,8 @@
             | splitext)[0]
           }}"
       loop: "{{ nginx_copy_tls_pkcs12 }}"
+      loop_control:
+        label: "{{ item.src }}"
 
     # unfortunatly this module doesn't tell us, if the resulting PEM changes
     - name: extract certificates from PKCS file
@@ -63,5 +64,6 @@
             | ternary('item.dest', __nginx_tls_key_path ~ '/' ~ item.dest)
             | splitext)[0]
           }}"
-      no_log: true
       loop: "{{ nginx_copy_tls_pkcs12 }}"
+      loop_control:
+        label: "{{ item.src }}"
