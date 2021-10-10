@@ -1,0 +1,53 @@
+---
+# ------------------------------------------------------------------------------
+# Installation
+# ------------------------------------------------------------------------------
+
+# repository used for installation on CentOS systems
+nginx_redhat_enablerepo: ""
+nginx_redhat_repo_url: "http://nginx.org/packages/centos/$releasever/$basearch/"
+
+# release channel used for installation on Debian systems
+nginx_debian_default_release: ""
+
+# extra packages to be installed
+nginx_extra_packages: []
+
+
+
+# ------------------------------------------------------------------------------
+# Service
+# ------------------------------------------------------------------------------
+
+# service enabled on boot
+nginx_service_enabled: true
+
+# service run state (started, stopped, restarted)
+nginx_service_state: started
+
+# restart service on configuration change
+nginx_service_reload_on_change: true
+
+
+
+# ------------------------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------------------------
+
+# copy tls certificate, key and/or pkcs12
+nginx_copy_tls_certs: []
+nginx_copy_tls_keys: []
+nginx_copy_tls_pkcs12: []
+
+# remove configurations from conf.d, which are not managed using Ansible
+nginx_remove_unmanaged_configs: false
+nginx_unmanaged_configs_allowlist: []
+
+# main configuration
+nginx_config: {}
+
+# vhost configurations
+nginx_vhosts: []
+
+# run config verification
+nginx_config_verify: true

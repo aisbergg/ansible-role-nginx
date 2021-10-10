@@ -1,0 +1,3 @@
+---
+__nginx_tls_certs_path: /etc/pki/tls/certs
+__nginx_tls_key_path: /etc/pki/tls/private

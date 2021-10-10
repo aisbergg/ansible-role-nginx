@@ -1,0 +1,31 @@
+---
+- when: nginx_redhat_repo_url | length > 0
+  block:
+    - name: add Nginx RPM repository (CentOS)
+      ansible.builtin.template:
+        src: etc/yum.repos.d/nginx.repo.j2
+        dest: /etc/yum.repos.d/nginx.repo
+        owner: root
+        group: root
+        mode: 0644
+        trim_blocks: true
+        lstrip_blocks: true
+
+    - name: copy Nginx repo GPG key (CentOS)
+      ansible.builtin.copy:
+        src: centos/GPG-KEY-nginx
+        dest: /etc/pki/rpm-gpg/GPG-KEY-nginx
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: import Nginx repo GPG key (CentOS)
+      ansible.builtin.rpm_key:
+        key: /etc/pki/rpm-gpg/GPG-KEY-nginx
+        fingerprint: 573B FD6B 3D8F BC64 1079 A6AB ABF5 BD82 7BD9 BF62
+
+- name: install packages (CentOS)
+  ansible.builtin.dnf:
+    name: "{{ __nginx_packages + nginx_extra_packages }}"
+    state: present
+    enablerepo: "{{ nginx_redhat_enablerepo | default(omit) }}"

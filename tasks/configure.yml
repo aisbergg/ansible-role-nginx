@@ -1,0 +1,49 @@
+---
+#
+# Nginx Configuration
+#
+
+- name: create main configuration
+  ansible.builtin.template:
+    src: etc/nginx/nginx.conf.j2
+    dest: "{{ __nginx_conf_path }}/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+    trim_blocks: true
+    lstrip_blocks: true
+    verify: "{{ nginx_config_verify | bool | ternary(('nginx -t -c ' ~ cfg_file | quote), omit) }}"
+  notify: reload nginx
+  vars:
+    cfg: "{{ nginx_config }}"
+    cfg_file: "{{ __nginx_conf_path }}/nginx.conf"
+
+- name: create vhosts configurations
+  ansible.builtin.template:
+    src: "etc/nginx/conf.d/{{ vhost.template | default('vhost.conf.j2') }}"
+    dest: "{{ __nginx_vhosts_path }}/{{ vhost.filename }}"
+    owner: root
+    group: root
+    mode: 0644
+    trim_blocks: true
+    lstrip_blocks: true
+    verify: "{{ nginx_config_verify | bool | ternary(('nginx -t -c ' ~ cfg_file | quote), omit) }}"
+  register: managed_config_files
+  notify: reload nginx
+  vars:
+    cfg: "{{ vhost.cfg | default({}) }}"
+    cfg_file: "{{ __nginx_conf_path }}/nginx.conf"
+  loop: "{{ nginx_vhosts }}"
+  loop_control:
+    loop_var: vhost
+    label: "{{ vhost.filename }}"
+
+
+
+#
+# Remove Unmanaged Configurations
+#
+
+- name: include unmanaged configs removal tasks
+  ansible.builtin.include_tasks: remove_unmanaged_configs.yml
+  when: nginx_remove_unmanaged_configs

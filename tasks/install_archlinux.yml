@@ -1,0 +1,5 @@
+---
+- name: install packages (Arch Linux)
+  ansible.builtin.pacman:
+    name: "{{ __nginx_packages + nginx_extra_packages }}"
+    state: present
