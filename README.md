@@ -58,13 +58,13 @@ None.
     nginx_config:
       ssl_certificate: "/etc/ssl/private/www.pem"
       ssl_certificate_key: "/etc/ssl/private/www.pem"
-    
+
     nginx_remove_unmanaged_configs: true
     nginx_vhosts:
       - filename: www.conf
         cfg:
           server_name: www.example.org
-          listen: 
+          listen:
             - "80"
             - "[::]:80"
             - "443 ssl"
