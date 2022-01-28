@@ -48,6 +48,3 @@ nginx_config: {}
 
 # vhost configurations
 nginx_vhosts: []
-
-# run config verification
-nginx_config_verify: true

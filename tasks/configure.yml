@@ -12,7 +12,6 @@
     mode: 0644
     trim_blocks: true
     lstrip_blocks: true
-    verify: "{{ nginx_config_verify | bool | ternary(('nginx -t -c ' ~ cfg_file | quote), omit) }}"
   notify: reload nginx
   vars:
     cfg: "{{ nginx_config }}"
@@ -20,14 +19,13 @@
 
 - name: create vhosts configurations
   ansible.builtin.template:
-    src: "etc/nginx/conf.d/{{ vhost.template | default('vhost.conf.j2') }}"
+    src: "{{ vhost.template | default('etc/nginx/conf.d/vhost.conf.j2') }}"
     dest: "{{ __nginx_vhosts_path }}/{{ vhost.filename }}"
     owner: root
     group: root
     mode: 0644
     trim_blocks: true
     lstrip_blocks: true
-    verify: "{{ nginx_config_verify | bool | ternary(('nginx -t -c ' ~ cfg_file | quote), omit) }}"
   register: managed_config_files
   notify: reload nginx
   vars:
@@ -47,3 +45,23 @@
 - name: include unmanaged configs removal tasks
   ansible.builtin.include_tasks: remove_unmanaged_configs.yml
   when: nginx_remove_unmanaged_configs
+
+
+
+#
+# Validate Configurations
+#
+
+- name: validate configuration
+  command: nginx -t -c nginx.conf
+  register: nginx_configtest
+  check_mode: false
+  failed_when: false
+  changed_when: false
+
+- name: fail on configuration error
+  fail:
+    msg: |
+      Failed to validate Nginx configuration:
+        {{ nginx_configtest.stderr | indent(2) }}
+  when: nginx_configtest is defined and nginx_configtest.rc != 0
