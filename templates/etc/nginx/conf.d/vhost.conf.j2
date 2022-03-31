@@ -31,8 +31,27 @@ upstream {{ upstream.name }} {
     {% endif %}
 }
 {% endfor %}
-{% endif %}
 
+{% endif %}
+{% if cfg.catch_all_unknown | default(false) | bool %}
+# close connection for connections without "Host" header
+server {
+    {% for listen in cfg.listen | default(['80', '[::]:80', '443 ssl', '[::]:443 ssl']) %}
+    listen {{ listen }} default_server;
+    {% endfor %}
+
+    ssl_certificate     {{ __nginx_tls_certs_path }}/dummy.crt;
+    ssl_certificate_key {{ __nginx_tls_key_path }}/dummy.key;
+    {% if cfg.ssl_dhparam is defined %}
+    ssl_dhparam {{ cfg.ssl_dhparam }};
+    {% endif %}
+
+    # close the connection by issuing this custom code
+    # see https://nginx.org/en/docs/http/request_processing.html
+    return      444;
+}
+
+{% endif %}
 server {
     {% for listen in cfg.listen | default(['80', '[::]:80', '443 ssl', '[::]:443 ssl']) %}
     listen {{ listen }};

@@ -137,10 +137,10 @@ http {
     # TLS
     ###############################################
 
-    ssl_protocols               {{ cfg.ssl_ciphers | default('TLSv1.2 TLSv1.3') }};
+    ssl_protocols               {{ cfg.ssl_protocols | default('TLSv1.2 TLSv1.3') }};
 
-    # let the server decide which cipher to use
-    ssl_prefer_server_ciphers   on;
+    # let the client decide which cipher to use, so hardware capabilities can fully utilized
+    ssl_prefer_server_ciphers   off;
     # accepted ciphers, use `openssl ciphers -v '...'` to get the actual ciphers.
     ssl_ciphers                 {{ cfg.ssl_ciphers | default('ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:EECDH+AESGCM:EDH+AESGCM') }};
 
