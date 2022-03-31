@@ -21,7 +21,7 @@
 
 - name: include certificate copy tasks
   ansible.builtin.import_tasks: copy_certificates.yml
-  tags: [apache, apache-certs, certs]
+  tags: [nginx, nginx-certs, certs]
 
 - name: include configuration tasks
   ansible.builtin.import_tasks: configure.yml
