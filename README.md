@@ -15,6 +15,7 @@ None.
 | `nginx_redhat_enablerepo` | `""` | Enable a repository for installation on RedHat systems. |
 | `nginx_redhat_repo_url` | `http://nginx.org/packages/`<br>`centos/$releasever/$basearch/` | Repository URL for official Nginx releases on RedHat systems. |
 | `nginx_debian_default_release` | `""` | Select a default release on Debian systems. |
+| `nginx_version` | `""` | Specific version of Nginx to install (must be available in repository). |
 | `nginx_extra_packages` | `[]` | Extra packages to install along with Nginx |
 | `nginx_service_enabled` | `true` | Enable/Disable the Nginx service |
 | `nginx_service_state` | `started` | Service run state (Possible values: started, restarted, stopped) |

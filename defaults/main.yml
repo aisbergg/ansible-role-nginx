@@ -3,15 +3,21 @@
 # Installation
 # ------------------------------------------------------------------------------
 
-# repository used for installation on CentOS systems
+# repository used for installation on RedHat systems
 nginx_redhat_enablerepo: ""
-nginx_redhat_repo_url: "http://nginx.org/packages/centos/$releasever/$basearch/"
+nginx_redhat_repo_url: ""
+
+# DNF stream to activate on RedHat systems
+nginx_redhat_stream: ""
 
 # release channel used for installation on Debian systems
 nginx_debian_default_release: ""
 
 # extra packages to be installed
 nginx_extra_packages: []
+
+# specific version to install (if available in repository)
+nginx_version: ""
 
 
 
