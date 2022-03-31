@@ -65,3 +65,6 @@
       Failed to validate Nginx configuration:
         {{ nginx_configtest.stderr | indent(2) }}
   when: nginx_configtest is defined and nginx_configtest.rc != 0
+
+- name: flush handlers
+  ansible.builtin.meta: flush_handlers
