@@ -23,6 +23,11 @@
   ansible.builtin.import_tasks: copy_certificates.yml
   tags: [nginx, nginx-certs, certs]
 
+- name: include dummy certificate creation tasks
+  ansible.builtin.include_tasks: create_dummy_certificate.yml
+  tags: [nginx, nginx-certs, certs]
+  when: nginx_create_dummy_certificate | bool
+
 - name: include configuration tasks
   ansible.builtin.import_tasks: configure.yml
   tags: [nginx, nginx_config, config]

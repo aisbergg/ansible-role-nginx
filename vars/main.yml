@@ -2,6 +2,7 @@
 __nginx_packages:
   - nginx
   - openssl
+  - python-cryptography  # required to extract PKCS12 files
 
 __nginx_conf_path: /etc/nginx
 __nginx_vhosts_path: /etc/nginx/conf.d
@@ -10,4 +11,3 @@ __nginx_tls_certs_path: /etc/ssl/certs
 __nginx_tls_key_path: /etc/ssl/private
 
 __nginx_service_name: nginx
-__nginx_daemon: nginx

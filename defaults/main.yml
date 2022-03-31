@@ -45,6 +45,9 @@ nginx_copy_tls_certs: []
 nginx_copy_tls_keys: []
 nginx_copy_tls_pkcs12: []
 
+# create a dummy certificate, that can be used for testing or other purposes
+nginx_create_dummy_certificate: false
+
 # remove configurations from conf.d, which are not managed using Ansible
 nginx_remove_unmanaged_configs: false
 nginx_unmanaged_configs_allowlist: []

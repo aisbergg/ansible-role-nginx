@@ -30,6 +30,7 @@ None.
 | **`nginx_copy_tls_pkcs12[].src`** |  | Source path of the PKCS12 file |
 | `nginx_copy_tls_pkcs12[].dest` | (keys dir with same name as source file) | Destination path of the PKCS12 file |
 | `nginx_copy_tls_pkcs12[].passphrase` |  | Passphrase for certificate extraction |
+| `nginx_create_dummy_certificate` | `false` | Create a dummy certificate, that can be used for testing or other purposes. |
 | `nginx_remove_unmanaged_configs` | `false` | Remove configurations from conf.d, which are not managed using Ansible |
 | `nginx_unmanaged_configs_allowlist` | `[]` | List of file names to exclude when removing unmanaged configs. |
 | `nginx_config` | `{}` | Variables (`cfg`) used in the main configuration file ([templates/etc/nginx/nginx.conf.j2](templates/etc/nginx/nginx.conf.j2)) |
