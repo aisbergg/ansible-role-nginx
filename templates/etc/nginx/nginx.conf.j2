@@ -1,8 +1,11 @@
 {{ ansible_managed | comment }}
 {% macro as_bool(var) %}{{ var | bool | ternary('on', 'off') }}{% endmacro %}
 
-user                            nginx;
-pid                             /var/run/nginx.pid;
+user                            {{ __nginx_user }};
+pid                             {{ __nginx_pid }};
+{% if ansible_os_family == 'Debian' %}
+include                         /etc/nginx/modules-enabled/*.conf;
+{%- endif %}
 worker_processes                {{ cfg.worker_processes | default('auto') }};
 # num of opened files per worker
 worker_rlimit_nofile            {{ cfg.worker_rlimit_nofile | default('20000') }};
