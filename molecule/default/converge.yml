@@ -1,0 +1,58 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    nginx_service_state: started
+    nginx_service_enabled: true
+
+    nginx_remove_unmanaged_configs: true
+    nginx_vhosts:
+      - filename: www.conf
+        cfg:
+          listen:
+            - "80"
+            - "[::]:80"
+          root: /var/www
+          index: index.html
+          rewrite_https: false
+          add_client_caching: true
+          locations:
+            - match: /
+              directives: |-
+                try_files $uri $uri/ /index.html;
+
+  tasks:
+    - name: ensure dirs exists
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+        owner: root
+        group: root
+        mode: 0755
+      loop:
+        - /etc/nginx/conf.d/
+        - /var/www/
+
+    - name: create website
+      ansible.builtin.copy:
+        content: |-
+          Hello World!
+        dest: /var/www/index.html
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: create superfluous config
+      ansible.builtin.copy:
+        content: |-
+          # foobar
+        dest: /etc/nginx/conf.d/superfluous.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: include role
+      ansible.builtin.include_role:
+        name: aisbergg.nginx
