@@ -34,7 +34,8 @@ None.
 | `nginx_remove_unmanaged_configs` | `false` | Remove configurations from conf.d, which are not managed using Ansible |
 | `nginx_unmanaged_configs_allowlist` | `[]` | List of file names to exclude when removing unmanaged configs. |
 | `nginx_config` | `{}` | Variables (`cfg`) used in the main configuration file ([templates/etc/nginx/nginx.conf.j2](templates/etc/nginx/nginx.conf.j2)) |
-| `nginx_vhosts` | `[]` | List of vhost configurations |
+| `nginx_vhosts` | `[]` | List of vhost configurations in `/etc/nginx/conf.d` |
+| `nginx_other_configs` | `[]` | List other configurations in `/etc/nginx` |
 | **`nginx_vhosts[].filename`** |  | Filename for the vhost config |
 | `nginx_vhosts[].template` | `vhost.conf.j2` | Template file to use for creating the vhost config (default one: [templates/etc/nginx/conf.d/vhost.conf.j2](templates/etc/nginx/conf.d/vhost.conf.j2)) |
 | `nginx_vhosts[].cfg` | `{}` | Variables (`cfg`) used in the vhost template (check out the [default template](templates/etc/nginx/conf.d/vhost.conf.j2) for possible values) |
@@ -42,7 +43,10 @@ None.
 
 ## Dependencies
 
-None.
+The role depends on the following collections:
+
+- `community.general`: for Arch Linux systems only
+- `community.crypto`: for creation of certificates and extraction of PKCS12 certificates
 
 ## Example Playbook
 
@@ -52,7 +56,7 @@ None.
     nginx_service_state: started
     nginx_service_enabled: true
 
-    nginx_copy_tls_pkcs12: []
+    nginx_copy_tls_pkcs12:
       - src: /path/to/www.pkcs12
         dest: www.pem
         passphrase: s3cr3t
