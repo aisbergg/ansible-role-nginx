@@ -55,5 +55,8 @@ nginx_unmanaged_configs_allowlist: []
 # main configuration
 nginx_config: {}
 
-# vhost configurations
+# vhost configurations in /etc/nginx/conf.d
 nginx_vhosts: []
+
+# other configurations in in /etc/nginx
+nginx_other_configs: []

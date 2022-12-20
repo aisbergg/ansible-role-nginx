@@ -234,6 +234,12 @@ http {
 
     port_in_redirect            {{ as_bool(cfg.port_in_redirect | default(false)) }};
 
+    {% if cfg.custom_config is defined %}
+    {% for line in (cfg.custom_config if cfg.custom_config is list else [cfg.custom_config]) %}
+    {{ line | indent(4) }}
+    {% endfor %}
+    {% endif %}
+
 
     ###############################################
     # Virtual hosts

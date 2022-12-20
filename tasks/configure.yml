@@ -17,7 +17,7 @@
     cfg: "{{ nginx_config }}"
     cfg_file: "{{ __nginx_conf_path }}/nginx.conf"
 
-- name: create vhosts configurations
+- name: create vhosts configurations in {{ __nginx_vhosts_path }}
   ansible.builtin.template:
     src: "{{ vhost.template | default('etc/nginx/conf.d/vhost.conf.j2') }}"
     dest: "{{ __nginx_vhosts_path }}/{{ vhost.filename }}"
@@ -35,6 +35,24 @@
   loop_control:
     loop_var: vhost
     label: "{{ vhost.filename }}"
+
+- name: other configurations in {{ __nginx_conf_path }}
+  ansible.builtin.template:
+    src: "{{ other_config.template }}"
+    dest: "{{ __nginx_conf_path }}/{{ other_config.filename }}"
+    owner: root
+    group: root
+    mode: 0644
+    trim_blocks: true
+    lstrip_blocks: true
+  notify: reload nginx
+  vars:
+    cfg: "{{ other_config.cfg | default({}) }}"
+    cfg_file: "{{ __nginx_conf_path }}/nginx.conf"
+  loop: "{{ nginx_other_configs }}"
+  loop_control:
+    loop_var: other_config
+    label: "{{ other_config.filename }}"
 
 
 
