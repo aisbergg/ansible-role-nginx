@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+- [1.4.0 (2022-12-20)](#140-2022-12-20)
 - [1.3.0 (2022-03-31)](#130-2022-03-31)
 - [1.2.0 (2022-01-28)](#120-2022-01-28)
 - [1.1.0 (2021-10-11)](#110-2021-10-11)
@@ -9,6 +10,30 @@ All notable changes to this project will be documented in this file.
 - [1.0.0 (2021-10-10)](#100-2021-10-10)
 
 ---
+
+<a name="1.4.0"></a>
+## [1.4.0](https://github.com/aisbergg/ansible-role-nginx/compare/v1.3.0...v1.4.0) (2022-12-20)
+
+### Bug Fixes
+
+- correct user for Arch Linux systems
+- remove pid option, it is hardcoded in the service file
+- make compatible with Debian systems
+- linting issues
+- fix removal of unmanaged vhost files
+
+### Chores
+
+- update linting config and add tox.ini
+
+### Docs
+
+- **README.md:** update documentation
+
+### Features
+
+- allow for other custom configs
+
 
 <a name="1.3.0"></a>
 ## [1.3.0](https://github.com/aisbergg/ansible-role-nginx/compare/v1.2.0...v1.3.0) (2022-03-31)
